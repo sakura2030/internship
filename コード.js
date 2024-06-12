@@ -63,7 +63,7 @@ function overwritePdwList() {
   let colBNames = sheet.getRange(2, 2, lastRow - 1).getValues();
 
   let colPdwList = colANumbers.map((value, index) => {
-		if (colBNames[index][0]) {
+		if (value[0] && colBNames[index][0]) {
 			return value[0] + ' ' + colBNames[index][0];
 		}
 	}).filter(Boolean);
@@ -77,7 +77,7 @@ function overwritePdwList() {
       let choices = [];
       colPdwList.forEach(function(name){
         if(name != ""){
-			choices.push(listItemQuestion.createChoice(name));
+					choices.push(listItemQuestion.createChoice(name));
         }
       });
       listItemQuestion.setChoices(choices);
