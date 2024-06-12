@@ -57,10 +57,14 @@ function overwritePdwList() {
   //スプレッドシートの情報を取得する
   let ss = SpreadsheetApp.getActiveSpreadsheet()
   let sheet = ss.getSheetByName("インターンシップ受入れ先一覧")
-  // if("番号" === sheet.getRange("A1").getValue()){
-  //   let colA = sheet.getRange(2, 1, sheet.getLastRow() - 1).getValues();
-  // }
-  let colPdwList = sheet.getRange(2, 2, sheet.getLastRow() - 1).getValues();
+
+  let lastRow = sheet.getLastRow()
+  let colANumbers = sheet.getRange(2, 1, lastRow - 1).getValues();
+  let colBNames = sheet.getRange(2, 2, lastRow - 1).getValues();
+
+  let colPdwList = colANumbers.map((value, index) => {
+	return value[0] + ' ' + colBNames[index][0];
+  });
 
   // Googleフォームのプルダウン内の値を上書きする
   let form = FormApp.openById('1znvvf3TF8NNMPEf4MqUnFLOB8-FE0F8Zlv89giG1P7Q');
@@ -71,7 +75,7 @@ function overwritePdwList() {
       let choices = [];
       colPdwList.forEach(function(name){
         if(name != ""){
-          choices.push(listItemQuestion.createChoice(name));
+			choices.push(listItemQuestion.createChoice(name));
         }
       });
       listItemQuestion.setChoices(choices);
