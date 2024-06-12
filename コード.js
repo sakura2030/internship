@@ -63,8 +63,10 @@ function overwritePdwList() {
   let colBNames = sheet.getRange(2, 2, lastRow - 1).getValues();
 
   let colPdwList = colANumbers.map((value, index) => {
-	return value[0] + ' ' + colBNames[index][0];
-  });
+		if (colBNames[index][0]) {
+			return value[0] + ' ' + colBNames[index][0];
+		}
+	}).filter(Boolean);
 
   // Googleフォームのプルダウン内の値を上書きする
   let form = FormApp.openById('1znvvf3TF8NNMPEf4MqUnFLOB8-FE0F8Zlv89giG1P7Q');
